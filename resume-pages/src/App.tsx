@@ -35,8 +35,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import './App.css';
 
-// 自定义动画样式
-const animationStyles = `
+// 增强的动画样式，包含毛玻璃效果和流星动画
+const enhancedAnimationStyles = `
   @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(-20px) rotate(180deg); }
@@ -72,6 +72,91 @@ const animationStyles = `
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
   }
+  
+  /* 新增：高级毛玻璃效果 */
+  @keyframes glass-morph {
+    0% { 
+      backdrop-filter: blur(10px) saturate(180%);
+      background: rgba(255, 255, 255, 0.25);
+    }
+    50% { 
+      backdrop-filter: blur(20px) saturate(200%);
+      background: rgba(255, 255, 255, 0.35);
+    }
+    100% { 
+      backdrop-filter: blur(10px) saturate(180%);
+      background: rgba(255, 255, 255, 0.25);
+    }
+  }
+  
+  /* 新增：高级渐变滑动效果 */
+  @keyframes advanced-slide {
+    0% { 
+      transform: translateX(-100%) scale(0.8);
+      opacity: 0;
+      filter: blur(10px);
+    }
+    50% {
+      transform: translateX(-20%) scale(1.05);
+      opacity: 0.8;
+      filter: blur(2px);
+    }
+    100% { 
+      transform: translateX(0) scale(1);
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+  
+  /* 新增：流星动画 */
+  @keyframes meteor {
+    0% {
+      transform: translateX(-300px) translateY(-300px) rotate(45deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(300px) translateY(300px) rotate(45deg);
+      opacity: 0;
+    }
+  }
+  
+  /* 新增：星空闪烁 */
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+  
+  /* 新增：极光效果 */
+  @keyframes aurora {
+    0% { 
+      background-position: 0% 50%;
+      filter: hue-rotate(0deg);
+    }
+    25% {
+      background-position: 100% 50%;
+      filter: hue-rotate(90deg);
+    }
+    50% {
+      background-position: 100% 100%;
+      filter: hue-rotate(180deg);
+    }
+    75% {
+      background-position: 0% 100%;
+      filter: hue-rotate(270deg);
+    }
+    100% { 
+      background-position: 0% 50%;
+      filter: hue-rotate(360deg);
+    }
+  }
+  
+  /* 应用动画类 */
   .animate-float { animation: float 6s ease-in-out infinite; }
   .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
   .animate-gradient { 
@@ -83,6 +168,97 @@ const animationStyles = `
   .animate-slide-in-right { animation: slide-in-right 0.8s ease-out; }
   .animate-fade-in-up { animation: fade-in-up 0.6s ease-out; }
   .animate-bounce-in { animation: bounce-in 0.8s ease-out; }
+  
+  /* 新增动画类 */
+  .glass-morphism {
+    backdrop-filter: blur(16px) saturate(180%);
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    animation: glass-morph 4s ease-in-out infinite;
+  }
+  
+  .dark-mode .glass-morphism {
+    background: rgba(17, 25, 40, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+  }
+  
+  .advanced-slide {
+    animation: advanced-slide 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .meteor {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: linear-gradient(45deg, #fff, transparent);
+    border-radius: 50%;
+    box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+    animation: meteor 3s linear infinite;
+  }
+  
+  .meteor:nth-child(1) { animation-delay: 0s; top: 10%; left: 10%; }
+  .meteor:nth-child(2) { animation-delay: 1s; top: 20%; left: 80%; }
+  .meteor:nth-child(3) { animation-delay: 2s; top: 50%; left: 60%; }
+  .meteor:nth-child(4) { animation-delay: 0.5s; top: 80%; left: 20%; }
+  .meteor:nth-child(5) { animation-delay: 1.5s; top: 30%; left: 90%; }
+  
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 2s ease-in-out infinite;
+  }
+  
+  .night-sky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    z-index: -1;
+    overflow: hidden;
+  }
+  
+  .night-aurora {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(45deg, 
+      rgba(0, 255, 150, 0.1) 0%,
+      rgba(0, 150, 255, 0.1) 25%,
+      rgba(150, 0, 255, 0.1) 50%,
+      rgba(255, 0, 150, 0.1) 75%,
+      rgba(255, 150, 0, 0.1) 100%);
+    background-size: 400% 400%;
+    animation: aurora 20s ease-in-out infinite;
+    filter: blur(1px);
+  }
+  
+  .day-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+  
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    animation: float 10s linear infinite;
+  }
+  
   .shimmer-effect {
     position: relative;
     overflow: hidden;
@@ -212,15 +388,76 @@ const education: Education[] = [
   }
 ];
 
+// 星空组件
+const NightSky: React.FC = () => {
+  const meteors = Array.from({ length: 5 }, (_, i) => i);
+  const stars = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    delay: Math.random() * 2,
+    duration: 2 + Math.random() * 3
+  }));
+
+  return (
+    <div className="night-sky">
+      <div className="night-aurora" />
+      {meteors.map(i => (
+        <div key={i} className="meteor" />
+      ))}
+      {stars.map(star => (
+        <div
+          key={star.id}
+          className="star"
+          style={{
+            left: `${star.left}%`,
+            top: `${star.top}%`,
+            animationDelay: `${star.delay}s`,
+            animationDuration: `${star.duration}s`
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+// 白天粒子效果组件
+const DayParticles: React.FC = () => {
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    delay: Math.random() * 10,
+    duration: 10 + Math.random() * 5
+  }));
+
+  return (
+    <div className="day-particles">
+      {particles.map(particle => (
+        <div
+          key={particle.id}
+          className="particle"
+          style={{
+            left: `${particle.left}%`,
+            top: `${particle.top}%`,
+            animationDelay: `${particle.delay}s`,
+            animationDuration: `${particle.duration}s`
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
-    // 插入动画样式
+    // 插入增强的动画样式
     const styleSheet = document.createElement("style");
     styleSheet.type = "text/css";
-    styleSheet.innerText = animationStyles;
+    styleSheet.innerText = enhancedAnimationStyles;
     document.head.appendChild(styleSheet);
 
     // 检测系统主题偏好
@@ -248,7 +485,7 @@ function App() {
       },
       background: {
         default: darkMode ? '#0a0a0a' : '#f5f5f5',
-        paper: darkMode ? '#1a1a1a' : '#ffffff',
+        paper: darkMode ? 'rgba(17, 25, 40, 0.75)' : 'rgba(255, 255, 255, 0.75)',
       },
     },
     typography: {
@@ -259,15 +496,20 @@ function App() {
         styleOverrides: {
           root: {
             borderRadius: 16,
+            backdropFilter: 'blur(16px) saturate(180%)',
+            backgroundColor: darkMode 
+              ? 'rgba(17, 25, 40, 0.25)' 
+              : 'rgba(255, 255, 255, 0.25)',
+            border: `1px solid ${darkMode ? 'rgba(255, 255, 255, 0.125)' : 'rgba(255, 255, 255, 0.125)'}`,
             boxShadow: darkMode 
               ? '0 8px 32px rgba(0,0,0,0.5)' 
               : '0 8px 32px rgba(0,0,0,0.1)',
-            transition: 'all 0.3s ease',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
-              transform: 'translateY(-4px)',
+              transform: 'translateY(-8px) scale(1.02)',
               boxShadow: darkMode 
-                ? '0 12px 48px rgba(0,0,0,0.7)' 
-                : '0 12px 48px rgba(0,0,0,0.15)',
+                ? '0 20px 60px rgba(0,0,0,0.7)' 
+                : '0 20px 60px rgba(0,0,0,0.15)',
             },
           },
         },
@@ -278,6 +520,11 @@ function App() {
             borderRadius: 25,
             textTransform: 'none',
             fontWeight: 600,
+            backdropFilter: 'blur(10px)',
+            '&:hover': {
+              transform: 'scale(1.05)',
+              boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+            },
           },
         },
       },
@@ -296,7 +543,10 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className={darkMode ? 'dark-mode' : 'light-mode'}>
-        <Box sx={{ minHeight: '100vh', backgroundColor: 'background.default' }}>
+        {/* 背景特效 */}
+        {darkMode ? <NightSky /> : <DayParticles />}
+        
+        <Box sx={{ minHeight: '100vh', position: 'relative', zIndex: 1 }}>
           {/* 主题切换按钮 */}
           <Fab
             color="primary"
@@ -306,6 +556,7 @@ function App() {
               top: 20,
               right: 20,
               zIndex: 1000,
+              backdropFilter: 'blur(10px)',
             }}
             onClick={toggleTheme}
             className="animate-pulse-glow"
@@ -323,89 +574,104 @@ function App() {
                 transition={{ duration: 0.5 }}
               >
                 {/* 个人信息头部 */}
-                <Card sx={{ mb: 4, overflow: 'visible' }} className="shimmer-effect">
+                <Card sx={{ mb: 4, overflow: 'visible' }} className="glass-morphism shimmer-effect">
                   <CardContent sx={{ p: 4 }}>
-                                      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4, alignItems: 'center' }}>
-                    <Box sx={{ textAlign: 'center', width: { xs: '100%', md: 'auto' } }}>
-                      <motion.div
-                        className="animate-float"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                      >
-                        <Avatar
-                          src={personalInfo.avatar}
-                          alt={personalInfo.name}
-                          sx={{ 
-                            width: 150, 
-                            height: 150, 
-                            mx: 'auto',
-                            mb: 2,
-                          }}
-                          className="floating-avatar"
-                        />
-                      </motion.div>
-                    </Box>
-                    <Box sx={{ flex: 1 }}>
-                      <motion.div
-                        initial={{ x: -50, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
-                      >
-                        <Typography variant="h3" component="h1" gutterBottom className="animate-gradient">
-                          {personalInfo.name}
-                        </Typography>
-                        <Typography variant="h5" color="primary" gutterBottom>
-                          {personalInfo.title}
-                        </Typography>
-                        <Typography variant="body1" color="text.secondary" paragraph>
-                          {personalInfo.bio}
-                        </Typography>
-                        
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
-                          <Chip icon={<Email />} label={personalInfo.email} />
-                          <Chip icon={<Phone />} label={personalInfo.phone} />
-                          <Chip icon={<LocationOn />} label={personalInfo.location} />
-                        </Box>
+                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4, alignItems: 'center' }}>
+                      <Box sx={{ textAlign: 'center', width: { xs: '100%', md: 'auto' } }}>
+                        <motion.div
+                          className="animate-float"
+                          whileHover={{ scale: 1.05, rotate: 5 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <Avatar
+                            src={personalInfo.avatar}
+                            alt={personalInfo.name}
+                            sx={{ 
+                              width: 150, 
+                              height: 150, 
+                              mx: 'auto',
+                              mb: 2,
+                            }}
+                            className="floating-avatar"
+                          />
+                        </motion.div>
+                      </Box>
+                      <Box sx={{ flex: 1 }}>
+                        <motion.div
+                          className="advanced-slide"
+                          initial={{ x: -50, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{ delay: 0.2, duration: 0.6 }}
+                        >
+                          <Typography variant="h3" component="h1" gutterBottom className="animate-gradient">
+                            {personalInfo.name}
+                          </Typography>
+                          <Typography variant="h5" color="primary" gutterBottom>
+                            {personalInfo.title}
+                          </Typography>
+                          <Typography variant="body1" color="text.secondary" paragraph>
+                            {personalInfo.bio}
+                          </Typography>
+                          
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
+                            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                              <Chip icon={<Email />} label={personalInfo.email} />
+                            </motion.div>
+                            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                              <Chip icon={<Phone />} label={personalInfo.phone} />
+                            </motion.div>
+                            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                              <Chip icon={<LocationOn />} label={personalInfo.location} />
+                            </motion.div>
+                          </Box>
 
-                        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => openSocialLink(personalInfo.socialLinks.douyin)}
-                            className="social-link"
-                            sx={{ borderRadius: 3 }}
-                          >
-                            抖音主页
-                          </Button>
-                          <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={() => openSocialLink(personalInfo.socialLinks.wechat)}
-                            className="social-link"
-                            sx={{ borderRadius: 3 }}
-                          >
-                            微信公众号
-                          </Button>
-                          {personalInfo.socialLinks.github && (
-                            <IconButton
-                              onClick={() => openSocialLink(personalInfo.socialLinks.github!)}
-                              className="social-link"
-                            >
-                              <GitHub />
-                            </IconButton>
-                          )}
-                          {personalInfo.socialLinks.linkedin && (
-                            <IconButton
-                              onClick={() => openSocialLink(personalInfo.socialLinks.linkedin!)}
-                              className="social-link"
-                            >
-                              <LinkedIn />
-                            </IconButton>
-                          )}
-                        </Box>
-                      </motion.div>
+                          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                            <motion.div whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }}>
+                              <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => openSocialLink(personalInfo.socialLinks.douyin)}
+                                className="social-link"
+                                sx={{ borderRadius: 3 }}
+                              >
+                                抖音主页
+                              </Button>
+                            </motion.div>
+                            <motion.div whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }}>
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => openSocialLink(personalInfo.socialLinks.wechat)}
+                                className="social-link"
+                                sx={{ borderRadius: 3 }}
+                              >
+                                微信公众号
+                              </Button>
+                            </motion.div>
+                            {personalInfo.socialLinks.github && (
+                              <motion.div whileHover={{ scale: 1.2, rotate: 10 }} whileTap={{ scale: 0.9 }}>
+                                <IconButton
+                                  onClick={() => openSocialLink(personalInfo.socialLinks.github!)}
+                                  className="social-link"
+                                >
+                                  <GitHub />
+                                </IconButton>
+                              </motion.div>
+                            )}
+                            {personalInfo.socialLinks.linkedin && (
+                              <motion.div whileHover={{ scale: 1.2, rotate: -10 }} whileTap={{ scale: 0.9 }}>
+                                <IconButton
+                                  onClick={() => openSocialLink(personalInfo.socialLinks.linkedin!)}
+                                  className="social-link"
+                                >
+                                  <LinkedIn />
+                                </IconButton>
+                              </motion.div>
+                            )}
+                          </Box>
+                        </motion.div>
+                      </Box>
                     </Box>
-                  </Box>
                   </CardContent>
                 </Card>
 
@@ -418,7 +684,7 @@ function App() {
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: 0.4, duration: 0.6 }}
                       >
-                        <Card className="animate-slide-in-left">
+                        <Card className="glass-morphism advanced-slide">
                           <CardContent sx={{ p: 3 }}>
                             <Typography variant="h5" component="h2" gutterBottom>
                               <Code sx={{ mr: 1, verticalAlign: 'middle' }} />
@@ -431,6 +697,7 @@ function App() {
                                   initial={{ opacity: 0, x: -20 }}
                                   animate={{ opacity: 1, x: 0 }}
                                   transition={{ delay: 0.1 * index, duration: 0.4 }}
+                                  whileHover={{ scale: 1.02, x: 10 }}
                                 >
                                   <Box sx={{ mb: 2 }}>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
@@ -448,6 +715,7 @@ function App() {
                                         backgroundColor: 'action.hover',
                                         borderRadius: 4,
                                         overflow: 'hidden',
+                                        position: 'relative',
                                       }}
                                     >
                                       <motion.div
@@ -460,8 +728,22 @@ function App() {
                                             ? 'linear-gradient(90deg, #90caf9, #f48fb1)'
                                             : 'linear-gradient(90deg, #1976d2, #dc004e)',
                                           borderRadius: 4,
+                                          position: 'relative',
+                                          overflow: 'hidden',
                                         }}
-                                      />
+                                      >
+                                        <div
+                                          style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            width: '100%',
+                                            height: '100%',
+                                            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                                            animation: 'shimmer 2s infinite',
+                                          }}
+                                        />
+                                      </motion.div>
                                     </Box>
                                   </Box>
                                 </motion.div>
@@ -479,7 +761,7 @@ function App() {
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: 0.4, duration: 0.6 }}
                       >
-                        <Card className="animate-slide-in-right">
+                        <Card className="glass-morphism advanced-slide">
                           <CardContent sx={{ p: 3 }}>
                             <Typography variant="h5" component="h2" gutterBottom>
                               <Work sx={{ mr: 1, verticalAlign: 'middle' }} />
@@ -492,6 +774,7 @@ function App() {
                                   initial={{ opacity: 0, y: 20 }}
                                   animate={{ opacity: 1, y: 0 }}
                                   transition={{ delay: 0.2 * index, duration: 0.5 }}
+                                  whileHover={{ scale: 1.02, x: 5 }}
                                 >
                                   <Box sx={{ mb: 3, pb: 3, borderBottom: index < experiences.length - 1 ? '1px solid' : 'none', borderColor: 'divider' }}>
                                     <Typography variant="h6" component="h3" gutterBottom>
@@ -527,7 +810,7 @@ function App() {
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.6, duration: 0.6 }}
                     >
-                      <Card className="animate-fade-in-up">
+                      <Card className="glass-morphism animate-fade-in-up">
                         <CardContent sx={{ p: 3 }}>
                           <Typography variant="h5" component="h2" gutterBottom>
                             <School sx={{ mr: 1, verticalAlign: 'middle' }} />
@@ -540,6 +823,7 @@ function App() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 0.2 * index, duration: 0.5 }}
+                                whileHover={{ scale: 1.02, y: -2 }}
                               >
                                 <Box sx={{ mb: 2 }}>
                                   <Typography variant="h6" component="h3" gutterBottom>
